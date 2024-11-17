@@ -12,16 +12,18 @@ set(FREERTOS_FETCH_FROM_GIT 1)
 # Pull in Raspberry Pi Pico SDK (must be before project)
 include(pico_sdk_import.cmake)
 
-if (PICO_SDK_VERSION_STRING VERSION_LESS "1.4.0")
-  message(FATAL_ERROR "Raspberry Pi Pico SDK version 1.4.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}")
+if (PICO_SDK_VERSION_STRING VERSION_LESS "2.0.0")
+  message(FATAL_ERROR "Raspberry Pi Pico SDK version 2.0.0 (or later) required. Your version is ${PICO_SDK_VERSION_STRING}")
 endif()
-# Initialise the Raspberry Pi Pico SDK
 
+if (NOT DEFINED PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS)
+    set(PICO_STDIO_USB_CONNECT_WAIT_TIMEOUT_MS 3000)
+endif()
+
+# Initialise the Raspberry Pi Pico SDK
 pico_sdk_init()
 
-project(pico-example-project C CXX ASM)
-
-
+project(simple-pico-examples C CXX ASM)
 
 # ====================================================================================
 # ====================================================================================
@@ -31,19 +33,18 @@ add_executable(hello-world-example hello-world-example.c )
 pico_set_program_name(hello-world-example "hello-world-example")
 pico_set_program_version(hello-world-example "0.1")
 
-
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(hello-world-example 0)
-pico_enable_stdio_usb(hello-world-example 0)
-
-# Add the standard library to the build
-target_link_libraries(hello-world-example
-        pico_stdlib)
+pico_enable_stdio_usb(hello-world-example 1)
 
 # Add the standard include files to the build
 target_include_directories(hello-world-example PRIVATE
-  ${CMAKE_CURRENT_LIST_DIR}
-  ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+)
+# Add the required libraries
+target_link_libraries(hello-world-example
+        pico_stdlib
 )
 
 pico_add_extra_outputs(hello-world-example)
@@ -59,22 +60,19 @@ pico_set_program_version(gpio-example "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(gpio-example 0)
-pico_enable_stdio_usb(gpio-example 0)
-
-# Add the standard library to the build
-target_link_libraries(gpio-example
-        pico_stdlib)
+pico_enable_stdio_usb(gpio-example 1)
 
 # Add the standard include files to the build
 target_include_directories(gpio-example PRIVATE
-  ${CMAKE_CURRENT_LIST_DIR}
-  ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
-# Add any user requested libraries
+# Add the required libraries
 target_link_libraries(gpio-example
+        pico_stdlib
         hardware_gpio
-        )
+)
 
 pico_add_extra_outputs(gpio-example)
 
@@ -86,25 +84,21 @@ add_executable(interupt-example interupt-example.c )
 pico_set_program_name(interupt-example "interupt-example")
 pico_set_program_version(interupt-example "0.1")
 
-
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(interupt-example 0)
-pico_enable_stdio_usb(interupt-example 0)
-
-# Add the standard library to the build
-target_link_libraries(interupt-example
-        pico_stdlib)
+pico_enable_stdio_usb(interupt-example 1)
 
 # Add the standard include files to the build
 target_include_directories(interupt-example PRIVATE
-  ${CMAKE_CURRENT_LIST_DIR}
-  ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
-# Add any user requested libraries
+# Add the required libraries
 target_link_libraries(interupt-example
+        pico_stdlib
         hardware_gpio
-        )
+)
 
 pico_add_extra_outputs(interupt-example)
 
@@ -119,22 +113,19 @@ pico_set_program_version(multicore-example "0.1")
 
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(multicore-example 0)
-pico_enable_stdio_usb(multicore-example 0)
-
-# Add the standard library to the build
-target_link_libraries(multicore-example
-        pico_stdlib)
+pico_enable_stdio_usb(multicore-example 1)
 
 # Add the standard include files to the build
 target_include_directories(multicore-example PRIVATE
-  ${CMAKE_CURRENT_LIST_DIR}
-  ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
-# Add any user requested libraries
+# Add the required libraries
 target_link_libraries(multicore-example
+        pico_stdlib
         pico_multicore
-        )
+)
 
 pico_add_extra_outputs(multicore-example)
 
@@ -147,7 +138,6 @@ target_include_directories(freertos_config INTERFACE
         "${CMAKE_CURRENT_LIST_DIR}/FreeRTOS"
 ) 
 
-
 include(FreeRTOS/FreeRTOS_import.cmake)
 include(FreeRTOS/FreeRTOS_Kernel_import.cmake)
 
@@ -156,27 +146,23 @@ add_executable(freertos-example freertos-example.c FreeRTOS/FreeRTOSPortAux.c)
 pico_set_program_name(freertos-example "freertos-example")
 pico_set_program_version(freertos-example "0.1")
 
-
 # Modify the below lines to enable/disable output over UART/USB
 pico_enable_stdio_uart(freertos-example 0)
-pico_enable_stdio_usb(freertos-example 0)
+pico_enable_stdio_usb(freertos-example 1)
 
-# Add the standard library to the build
-target_link_libraries(freertos-example
-        pico_stdlib)
- 
 # Add the standard include files to the build
 target_include_directories(freertos-example PRIVATE
-  ${CMAKE_CURRENT_LIST_DIR}
-  ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
 )
 
-# Add any user requested libraries
+# Add the required libraries
 target_link_libraries(freertos-example
+        pico_stdlib
         FreeRTOS-Kernel 
         FreeRTOS-Kernel-Heap4 
         freertos_config
-        )
+)
 
 pico_add_extra_outputs(freertos-example)
 

@@ -2,11 +2,12 @@
 #include "pico/stdlib.h"
 #include "hardware/gpio.h"
 
+#define LED_PIN 3
+
 int main()
 {
     stdio_init_all();
-    sleep_ms(3000); // Without delay we can crash the mcu if we try use usb
-    int LED_PIN = 3;
+
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);
 
