@@ -14,6 +14,7 @@ void core1_entry() {
 
 int main() {
     stdio_init_all();
+    sleep_ms(3000); // Without delay we can crash the mcu if we try use usb
     printf("Hello, multicore!\n");
     // enable the second core and allow for multicore lockout 
     // to prevent double printing to stdout effectively a mutex

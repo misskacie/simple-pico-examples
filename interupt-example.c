@@ -9,7 +9,7 @@ void gpio_callback(uint gpio, uint32_t events) {
 
 int main() {
     stdio_init_all();
-    sleep_ms(3000);
+    sleep_ms(3000); // Without delay we can crash the mcu if we try use usb
     
     int BUTTON_PIN = 2;
     printf("Hello GPIO IRQ\n");
