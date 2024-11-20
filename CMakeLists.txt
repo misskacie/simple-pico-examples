@@ -132,6 +132,87 @@ pico_add_extra_outputs(multicore-example)
 # ====================================================================================
 # ====================================================================================
 # ====================================================================================
+add_executable(watchdog-example watchdog-example.c )
+
+pico_set_program_name(watchdog-example "multicore-example")
+pico_set_program_version(watchdog-example "0.1")
+
+
+# Modify the below lines to enable/disable output over UART/USB
+pico_enable_stdio_uart(watchdog-example 0)
+pico_enable_stdio_usb(watchdog-example 1)
+
+# Add the standard include files to the build
+target_include_directories(watchdog-example PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+)
+
+# Add the required libraries
+target_link_libraries(watchdog-example
+        pico_stdlib
+)
+
+pico_add_extra_outputs(multicore-example)
+
+# ====================================================================================
+# ====================================================================================
+# ====================================================================================
+add_executable(dma-example dma-example.c )
+
+pico_set_program_name(dma-example "multicore-example")
+pico_set_program_version(dma-example "0.1")
+
+
+# Modify the below lines to enable/disable output over UART/USB
+pico_enable_stdio_uart(dma-example 0)
+pico_enable_stdio_usb(dma-example 1)
+
+# Add the standard include files to the build
+target_include_directories(dma-example PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+)
+
+# Add the required libraries
+target_link_libraries(dma-example
+        pico_stdlib
+        hardware_dma
+)
+
+pico_add_extra_outputs(dma-example)
+
+# ====================================================================================
+# ====================================================================================
+# ====================================================================================
+add_executable(i2c-bus-scan i2c-bus-scan.c )
+
+pico_set_program_name(i2c-bus-scan "i2c-bus-scan")
+pico_set_program_version(i2c-bus-scan "0.1")
+
+
+# Modify the below lines to enable/disable output over UART/USB
+pico_enable_stdio_uart(i2c-bus-scan 0)
+pico_enable_stdio_usb(i2c-bus-scan 1)
+
+# Add the standard include files to the build
+target_include_directories(i2c-bus-scan PRIVATE
+        ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/.. # for our common lwipopts or any other standard includes, if required
+)
+
+# Add the required libraries
+target_link_libraries(i2c-bus-scan
+        pico_stdlib
+        hardware_i2c
+)
+
+pico_add_extra_outputs(i2c-bus-scan)
+
+# ====================================================================================
+# ====================================================================================
+# ====================================================================================
+
 
 add_library(freertos_config INTERFACE)
 target_include_directories(freertos_config INTERFACE
