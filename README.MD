@@ -1,5 +1,3 @@
-
-
 ### Setting up Pico SDK Workspace
 In order to build the project you will need to run the following commands
 
@@ -45,3 +43,7 @@ To do that we run the following commands:
 
 ### CMake Notes
 The files `pico_sdk_import.cmake` and `FreeRTOS_import.cmake` depend on `FetchContent_Populate()` which was deprecated in new versions of CMake. When the pico-sdk and FreeRTOS_Kernel start using new CMake versions, these calls will need to be replaced with `FetchContent_MakeAvailable()` however this is not a one to one switch.
+
+
+### Abtribution
+Some examples are taken or adapted from the https://github.com/raspberrypi/pico-examples repository.
